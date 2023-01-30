@@ -8,22 +8,11 @@ import React, { useState } from "react";
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  const options = { good: setGood, bad: setBad, neutral: setNeutral };
 
   const handleFeedback = event => {
     const { name } = event.target;
-    switch (name) {
-      case 'good':
-        setGood(good + 1);
-        break;
-      case 'neutral':
-        setNeutral(neutral + 1);
-        break;
-      case 'bad':
-        setBad(bad + 1);
-        break;
-      default:
-        return;
-    }
+    options[name](prev => prev + 1)
   };
 
   const countTotalFeedback = () => {
@@ -38,7 +27,7 @@ import React, { useState } from "react";
     <div>
       <Section title="Please leave feedback">
         <FeedbackOptions
-          options={['good', 'neutral', 'bad']}
+          options={Object.keys(options)}
           onLeaveFeedback={handleFeedback}
         />
       </Section>
